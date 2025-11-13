@@ -1,0 +1,10 @@
+1) Make /users visible only for admin
+
+
+Main changes:
+
+1) JWT-Auth(v)
+2) H2 ==> PostgreSQL(v)
+3) Frontend React
+4) Chats(message Entity)
+5) Docker

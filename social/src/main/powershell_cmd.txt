@@ -1,0 +1,53 @@
+ curl.exe -X POST http://localhost:8080/api/auth/register `
+>> -H "Content-Type: application/json" `
+>> -d '{\"email\":\"jwtuser@example.com\",\"password\":\"abcd\"}'
+
+
+ curl.exe -X POST http://localhost:8080/api/auth/login `
+>> -H "Content-Type: application/json" `
+>> -d '{\"email\":\"jwtuser@example.com\",\"password\":\"abcd\"}'
+
+    ||
+    \/
+{"token":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqd3R1c2VyQGV4YW1wbGUuY29tIiwiaWF0IjoxNzYyNzgzNTcwLCJleHAiOjE3NjI3ODcxNzB9.RQQxIy953m881j-tn_PMH6QujhyJAQtmcJPJceQMstI"}
+
+
+
+
+curl.exe http://localhost:8080/api/auth/users `
+>> -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqd3R1c2VyQGV4YW1wbGUuY29tIiwiaWF0IjoxNzYyNzgzNTcwLCJleHAiOjE3NjI3ODcxNzB9.RQQxIy953m881j-tn_PMH6QujhyJAQtmcJPJceQMstI"
+[{"id":1,"email":"jwtuser@example.com"}]
+
+
+
+Msg send:
+
+curl.exe -X POST http://localhost:8080/api/messages/send `
+>> -H "Content-Type: application/json" `
+>> -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqd3R1c2VyQGV4YW1wbGUuY29tIiwiaWF0IjoxNzYyODU2NDYzLCJleHAiOjE3NjI4NjAwNjN9.HM1RNaMOy7FHSQvbaWvRKVVYhYHDyU64kbGj2PpBaNE" `
+>> -d '{\"sender\":{\"id\":1}, \"receiver\":{\"id\":2}, \"content\":\"Привет, как дела?\"}'
+
+
+
+Right usage of tokens:
+
+
+ $response = curl.exe -s -X POST http://localhost:8080/api/auth/login `
+>> -H "Content-Type: application/json" `
+>> -d '{\"email\":\"jwtuser@example.com\",\"password\":\"abcd\"}'
+ $response
+{"token":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqd3R1c2VyQGV4YW1wbGUuY29tIiwiaWF0IjoxNzYyOTQ2Nzg1LCJleHAiOjE3NjI5NTAzODV9.nalnpR7qujMOYaB3RevUI3nExB6k4NUCuuRx7KloLc8"}
+ $token = ($response | ConvertFrom-Json).token
+ $token
+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqd3R1c2VyQGV4YW1wbGUuY29tIiwiaWF0IjoxNzYyOTQ2Nzg1LCJleHAiOjE3NjI5NTAzODV9.nalnpR7qujMOYaB3RevUI3nExB6k4NUCuuRx7KloLc8
+ curl.exe -v http://localhost:8080/api/messages `
+>> -H "Authorization: Bearer $token"
+
+ curl.exe -v -X POST http://localhost:8080/api/messages/send `
+>> -H "Content-Type: application/json" `
+>> -H "Authorization: Bearer $token" `
+>> -d '{\"sender\":{\"id\":1}, \"receiver\":{\"id\":2}, \"content\":\"Привет, как дела?\"}'
+
+{"id":1,"sender":{"id":1,"email":"jwtuser@example.com"},"receiver":{"id":2,"email":"second@example.com"},"content":"Привет, как дела?","timestamp":"2025-11-12T12:29:40.2412737"}* Connection #0 to host localhost left intact
+curl.exe -v http://localhost:8080/api/messages `
+>> -H "Authorization: Bearer $token"
