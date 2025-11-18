@@ -3,14 +3,13 @@ package com.example.social.security;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Service;
-
 import java.security.Key;
 import java.util.Date;
 
 @Service
 public class JwtService {
 
-    private static final String SECRET_KEY = "mysupersecretkeymysupersecretkeymysupersecretkey"; // 64+ bit
+    private static final String SECRET_KEY = "mysupersecretkeymysupersecretkeymysupersecretkey"; // 64+ bit(mb need this info later)
 
     private Key getSignKey() {
         return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());

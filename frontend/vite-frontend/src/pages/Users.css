@@ -1,0 +1,60 @@
+.users-page {
+    height: 100vh;
+    width: 100vw;
+    background: #1f1f1f;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.users-container {
+    width: 480px;
+    background: #242424;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.users-container h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.users-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.users-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #333;
+}
+
+.users-chat-btn {
+    background: #333;
+    padding: 8px 12px;
+    border-radius: 6px;
+    color: white;
+    text-decoration: none;
+}
+
+.users-chat-btn:hover {
+    background: #444;
+}
+
+.users-back-btn {
+    display: block;
+    margin-top: 20px;
+    text-align: center;
+    text-decoration: none;
+    color: #4fa3ff;
+}
+
+.users-back-btn:hover {
+    color: #7bbaff;
+}

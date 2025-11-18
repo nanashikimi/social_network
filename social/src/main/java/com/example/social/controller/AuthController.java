@@ -11,9 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = "*")
 public class AuthController {
-
     private final UserRepository userRepo;
     private final JwtService jwtService;
 
@@ -40,11 +38,8 @@ public class AuthController {
                         .body(Map.of("error", "Invalid credentials")));
     }
 
-
     @GetMapping("/users")
     public List<User> getAllUsers() {
         return userRepo.findAll();
     }
-
-
 }
