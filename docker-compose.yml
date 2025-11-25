@@ -1,0 +1,48 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16
+    container_name: social-db
+    environment:
+      POSTGRES_USER: social
+      POSTGRES_PASSWORD: social
+      POSTGRES_DB: social
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - devnet
+
+  backend:
+    build: ./social
+    container_name: social-backend
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/social
+      SPRING_DATASOURCE_USERNAME: social
+      SPRING_DATASOURCE_PASSWORD: social
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    networks:
+      - devnet
+
+  frontend:
+    build: ./frontend/vite-frontend
+    container_name: social-frontend
+    ports:
+      - "5173:5173"
+    environment:
+      CHOKIDAR_USEPOLLING: "true"
+    command: ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
+    networks:
+      - devnet
+
+volumes:
+  postgres-data:
+
+networks:
+  devnet:
+    driver: bridge
